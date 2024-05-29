@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>T-Shirt Store</title>
+    <title>Digital Store</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        /* Styles */
+        /* Custom Styles */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -21,6 +22,12 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+        }
+
+        h1 {
+            font-family: 'Brush Script MT', cursive;
+            font-size: 2.5rem;
+            margin: 0;
         }
 
         header input {
@@ -41,6 +48,9 @@
             background-color: #fff;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             margin-bottom: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: all 0.3s;
         }
 
         #filters label {
@@ -59,14 +69,14 @@
             justify-content: center;
         }
 
-        .product-card img {
-            width: 150px; /* Set the desired width */
-            height: 200px; /* Set the desired height */
-            object-fit: cover; /* Ensure the images cover the entire space */
-            background-color: white; /* Set the background color to white */
-            margin-bottom: 10px;
+        .product-card {
+            border-radius: 10px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            transition: transform 0.3s;
+            cursor: pointer;
         }
-
 
         .product-card:hover {
             transform: translateY(-5px);
@@ -74,9 +84,10 @@
 
         .product-card img {
             width: 100%;
-            height: 200px; /* Set a fixed height for all images */
-            object-fit: cover; /* Ensure the images cover the entire space */
+            height: 200px;
+            object-fit: cover;
             margin-bottom: 10px;
+            border-radius: 10px;
         }
 
         .product-card h3, .product-card p {
@@ -90,10 +101,7 @@
             padding: 10px;
             cursor: pointer;
             width: 100%;
-        }
-
-        .hidden {
-            display: none;
+            border-radius: 5px;
         }
 
         #cart {
@@ -152,51 +160,76 @@
 </head>
 <body>
     <header>
-        <h1>T-Shirt Store</h1>
-        <input type="text" id="searchBar" placeholder="Search for t-shirts...">
-        <button id="cartButton" >Cart (<span id="cartCount">0</span>)</button>
+        <h1>Digital<span class="text-danger">Store</span></h1>
+        <input type="text" id="searchBar" class="form-control" placeholder="Search for t-shirts...">
+        <button id="cartButton" class="btn btn-primary">Cart (<span id="cartCount">0</span>)</button>
     </header>
     
-    <section id="filters">
-        <label for="genderFilter">Gender:</label>
-        <select id="genderFilter">
-            <option value="">All</option>
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-        </select>
-
-        <label for="colorFilter">Color:</label>
-        <select id="colorFilter">
-            <option value="">All</option>
-            <option value="red">Red</option>
-            <option value="green">Green</option>
-            <option value="blue">Blue</option>
-        </select>
-
-        <label for="typeFilter">Type:</label>
-        <select id="typeFilter">
-            <option value="">All</option>
-            <option value="polo">Polo</option>
-            <option value="round">Round</option>
-        </select>
-
-        <label for="priceFilter">Price Range:</label>
-        <input type="range" id="priceFilter" min="0" max="100" step="1">
-        <span id="priceValue">50</span>
+    <section id="filters" class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <label for="genderFilter">Gender:</label>
+                <select id="genderFilter" class="form-control">
+                    <option value="">All</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label for="colorFilter">Color:</label>
+                <select id="colorFilter" class="form-control">
+                    <option value="">All</option>
+                    <option value="red">Red</option>
+                    <option value="green">Green</option>
+                    <option value="blue">Blue</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label for="typeFilter">Type:</label>
+                <select id="typeFilter" class="form-control">
+                    <option value="">All</option>
+                    <option value="polo">Polo</option>
+                    <option value="round">Round</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label for="priceFilter">Price Range:</label>
+                <input type="range" id="priceFilter" min="0" max="100" step="1" class="form-control-range">
+                <span id="priceValue">50</span>
+            </div>
+        </div>
     </section>
 
-    <section id="productList"></section>
+    <section id="productList" class="container"></section>
 
+    <!-- Cart Section -->
     
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
         // JavaScript
         const products = [
-            { id: 1, name: 'Red Polo', color: 'red', type: 'polo', gender: 'male', price: 30, image: 'assets/img/red.png', quantity: 10 },
-            { id: 2, name: 'Green Round', color: 'green', type: 'round', gender: 'female', price: 25, image: 'assets/img/green.png', quantity: 15 },
-            { id: 3, name: 'Blue Polo', color: 'blue', type: 'polo', gender: 'male', price: 35, image: 'assets/img/blue.png', quantity: 8 },
-            { id: 4, name: 'Red Round', color: 'red', type: 'round', gender: 'female', price: 20, image: 'assets/img/red_round.png', quantity:12 }
-        ];
+        { id: 1, name: 'Red Polo', color: 'red', type: 'polo', gender: 'male', price: 30, image: 'assets/img/red.png', quantity: 10 },
+        { id: 2, name: 'Green Round', color: 'green', type: 'round', gender: 'female', price: 25, image: 'assets/img/green.png', quantity: 15 },
+        { id: 3, name: 'Blue Polo', color: 'blue', type: 'polo', gender: 'male', price: 35, image: 'assets/img/blue.png', quantity: 8 },
+        { id: 4, name: 'Red Round', color: 'red', type: 'round', gender: 'female', price: 20, image: 'assets/img/red_round.png', quantity:12 },
+        { id: 5, name: 'Blue round', color: 'Blue', type: 'round', gender: 'male', price: 40, image: 'assets/img/blue_round.png', quantity:6 },
+        { id: 6, name: 'Black Polo', color: 'Black', type: 'polo', gender: 'male', price: 45, image: 'assets/img/black_polo.png', quantity:18 },
+        { id: 7, name: 'Yellow Polo', color: 'yellow', type: 'polo', gender: 'male', price: 35, image: 'assets/img/yellow_polo.png', quantity: 20 },
+        { id: 8, name: 'Pink Round', color: 'pink', type: 'round', gender: 'female', price: 28, image: 'assets/img/pink_round.png', quantity: 10 },
+        { id: 9, name: 'White Polo', color: 'white', type: 'polo', gender: 'male', price: 38, image: 'assets/img/white_polo.png', quantity: 15 },
+        { id: 10, name: 'Purple Round', color: 'purple', type: 'round', gender: 'female', price: 22, image: 'assets/img/purple_round.png', quantity: 18 },
+        { id: 11, name: 'Orange Polo', color: 'orange', type: 'polo', gender: 'male', price: 32, image: 'assets/img/orange_polo.png', quantity: 25 },
+        { id: 12, name: 'Black Round', color: 'black', type: 'round', gender: 'female', price: 30, image: 'assets/img/black_round.png', quantity: 14 },
+        { id: 13, name: 'Gray Polo', color: 'gray', type: 'polo', gender: 'male', price: 40, image: 'assets/img/gray_polo.png', quantity: 20 },
+        { id: 14, name: 'Brown Round', color: 'brown', type: 'round', gender: 'female', price: 26, image: 'assets/img/brown_round.png', quantity: 12 },
+        { id: 15, name: 'Cyan Polo', color: 'cyan', type: 'polo', gender: 'male', price: 36, image: 'assets/img/cyan_polo.png', quantity: 22 },
+        { id: 16, name: 'Magenta Round', color: 'magenta', type: 'round', gender: 'female', price: 24, image: 'assets/img/magenta_round.png', quantity: 16 },
+        { id: 17, name: 'Olive Polo', color: 'olive', type: 'polo', gender: 'male', price: 42, image: 'assets/img/olive_polo.png', quantity: 18 },
+        { id: 18, name: 'Lime Round', color: 'lime', type: 'round', gender: 'female', price: 29, image: 'assets/img/lime_round.png', quantity: 11 },
+    ];
+
 
         let cart = [];
         let wishlist = [];
@@ -343,6 +376,5 @@
             window.location.href = 'check.html';
         }
     </script>
-
 </body>
 </html>
